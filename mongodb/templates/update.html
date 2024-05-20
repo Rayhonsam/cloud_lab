@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="form">
+        <form action="/update" method="post">
+            <div class="title">Edit Here</div>
+            <div class="input-container ic1">
+                <input id="firstname" class="input" name="name" type="text" value="{{ college.name }}"
+                    placeholder=" " />
+                <div class="cut"></div>
+                <label for="name" class="placeholder">Name</label>
+            </div>
+            <div class="input-container ic2">
+                <input id="lastname" class="input" name="email" type="email" value="{{ college.email }}"
+                    placeholder=" " />
+                <div class="cut"></div>
+                <label for="email" class="placeholder">Email</label>
+            </div>
+            <div class="input-container ic2">
+                <input id="code" class="input" name="code" type="number" value="{{ college.code }}" placeholder=" " />
+                <div class="cut"></div>
+                <label for="code" class="placeholder">Code</label>
+            </div>
+            <div class="input-container ic2">
+                <input id="code" class="input" name="location" type="text" value="{{ college.location }}"
+                    placeholder=" " />
+                <div class="cut"></div>
+                <label for="location" class="placeholder">Location</label>
+            </div>
+                <input id="code" class="input" name="id" type="hidden" value="{{ college._id }}"
+                    placeholder=" " />
+                <div class="cut"></div>
+            <button type="submit" class="submit">Update</button>
+        </form>
+    </div>
+</body>
+
+</html>
