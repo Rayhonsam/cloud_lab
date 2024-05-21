@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .quote {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .author {
+            font-size: 18px;
+            color: #555;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="quote" id="quote">Click the button to fetch a random quote!</div>
+        <div class="author" id="author"></div>
+        <button class="btn" onclick="fetchQuote()">Get a Random Quote</button>
+    </div>
+
+    <script>
+        async function fetchQuote() {
+            const url = 'https://quotes15.p.rapidapi.com/quotes/random/';
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': '168d1b6a7amsh55f0f882c272987p13c6f8jsn2f1b98e10061',
+                    'X-RapidAPI-Host': 'quotes15.p.rapidapi.com'
+                }
+            };
+
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                document.getElementById('quote').innerText = result.content;
+                document.getElementById('author').innerText = `- ${result.originator.name}`;
+            } catch (error) {
+                console.error(error);
+                document.getElementById('quote').innerText = "Failed to fetch quote. Please try again.";
+                document.getElementById('author').innerText = "";
+            }
+        }
+    </script>
+</body>
+</html>

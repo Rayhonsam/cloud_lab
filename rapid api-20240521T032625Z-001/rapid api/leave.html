@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Facts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eb828e74;
+        }
+
+        header {
+            background-color: #cb1025;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+        }
+
+        main {
+            background-color: #d7e5a347;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 500px;
+            margin: 150px auto; /* Center the card horizontally */
+            text-align: center;
+        }
+
+        .card label,
+        .card input {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+            height: 40px; /* Increase the height of the input field */
+        }
+
+        .card button {
+            background-color: #cb1025;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .card button:hover {
+            background-color: #96111d; /* Darker shade on hover */
+        }
+
+        footer {
+            background-color: #cb1025;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Date Facts</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main class="card">
+
+        <label for="dateInput">Select a Date:</label>
+        <input type="date" id="dateInput" />
+
+        <label for="factsOutput">Facts:</label>
+        <input type="text" id="factsOutput" readonly />
+
+        <button onclick="getFact()">Get Facts</button>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Date Facts</p>
+    </footer>
+
+    <!-- JavaScript Code -->
+    <script>
+        async function getFact() {
+            const dateInput = document.getElementById('dateInput');
+            const factsOutput = document.getElementById('factsOutput');
+
+            // Check if a date is selected
+            if (!dateInput.value) {
+                alert('Please select a date');
+                return;
+            }
+
+            const selectedDate = new Date(dateInput.value);
+            const year = selectedDate.getFullYear();
+            const month = selectedDate.getMonth() + 1;
+            const day = selectedDate.getDate();
+
+            const url = `https://numbersapi.p.rapidapi.com/${month}/${day}/date?fragment=true&json=true&year=${year}`;
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': '0b384289ebmsh6a4ea8a2038e469p189974jsn5b33057350e6',
+                    'X-RapidAPI-Host': 'numbersapi.p.rapidapi.com'
+                }
+            };
+
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                factsOutput.value = result.text;
+            } catch (error) {
+                console.error(error);
+                factsOutput.value = 'Error fetching facts';
+            }
+        }
+    </script>
+
+</body>
+</html>

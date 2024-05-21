@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allah Names</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        #searchBar {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #result {
+            text-align: left;
+        }
+        .name-card {
+            background: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .name-card h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .name-card p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Allah Names</h1>
+        <input type="text" id="searchBar" placeholder="Search for a name...">
+        <div id="result"></div>
+    </div>
+    <script>
+        const url = 'https://allah-name.p.rapidapi.com/name';
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'ccc2a4338dmsh6bb9cd8d190940ep11d74bjsnb1b835b603da',
+                'X-RapidAPI-Host': 'allah-name.p.rapidapi.com'
+            }
+        };
+
+        async function fetchNames() {
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                if (result && Array.isArray(result.main)) {
+                    displayNames(result.main);
+                } else {
+                    console.error('API response is not an array:', result);
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        }
+
+        function displayNames(names) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+            names.forEach(name => {
+                const nameCard = document.createElement('div');
+                nameCard.className = 'name-card';
+                nameCard.innerHTML = `
+                    <h2>${name.arName} (${name.enName})</h2>
+                    <p><strong>Meaning:</strong> ${name.meaning}</p>
+                    <p><strong>Explanation:</strong> ${name.explanation}</p>
+                    <p><strong>Benefit:</strong> ${name.benefit}</p>
+                `;
+                resultDiv.appendChild(nameCard);
+            });
+        }
+
+        document.getElementById('searchBar').addEventListener('input', (e) => {
+            const searchQuery = e.target.value.toLowerCase();
+            const nameCards = document.querySelectorAll('.name-card');
+            nameCards.forEach(card => {
+                const nameText = card.textContent.toLowerCase();
+                if (nameText.includes(searchQuery)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        fetchNames();
+    </script>
+</body>
+</html>
