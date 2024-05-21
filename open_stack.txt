@@ -1,0 +1,68 @@
+open stack 
+1.check date and time 
+cmd : date
+
+2.sudo nano/etc/resolv.conf
+      nameserver 10.184.0.11 (check internet access)
+
+3. sudo useradd -s /bin/bash -d/opt/stack -m stack (create an user)
+
+4. sudo chmod +x /opt/stack ( execution permission for open stack)
+
+5. sudo echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
+
+6. sudo -u stack -i ( switch to stack user)
+#installing two packages 
+
+7. sudo apt install git sudo 
+
+8. git clone https://opendev.org/openstack/devstack -b stable/zed
+
+9. cd devstack/
+
+10. create file nano local.conf ( copy the contents from manual)
+[[local|localrc]]
+
+ADMIN_PASSWORD=admin
+DATABASE_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+
+HOST_IP= 
+ifconfig ( sudo apt-get install net-tools )
+
+disable_service etcd3
+
+
+
+HOST_IP=10.0.2.15 // Only for Virtual Box
+HOST_IP= <Use ifconfig for Dual Boot Systems to  get IP Address>
+
+
+If HOST_IP Error occurs (Only in Virtual Box)
+nano /opt/stack/devstack/stackrc
+change IPV4_ADDRS_SAFE_TO_USE=${IPV4_ADDRS_SAFE_TO_USE:-10.0.0.0/22}
+into IPV4_ADDRS_SAFE_TO_USE=${IPV4_ADDRS_SAFE_TO_USE:-10.1.0.0/22}
+
+
+
+11. make sure to put your system ip in host_ip
+
+12. ./stack.sh
+
+13. Remove os-testr==3.0.0  (if error occurs in ./stack.sh)
+	nano /opt/stack/requirements/upper-constraints.txt
+ ./stack.sh
+
+13. Once successfull installation the details about the username and password will be displayed . ( sudo and demo)
+
+14. Then type ip in mozilla ->> open stack will be opened 
+
+15 . it will consist of ->> instances , network topology , routers etc..
+
+16 . Go to network topology -> network name --> network addredd 10.10.10.0/24 --> ipv4 -->gateway ip 10.10.10.0/24 ->> enable dhcp checkbox--> click on create to launch the network
+
+17. Instance --> Launch instance-->instance name -->next --> click no for new volume --> select os --> select size of the machine --> select the network as private the we created before --> then click launch the instance --> vm is created and instance comes to running state
+
+
+
